@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-# Load the trading data file
+#Load the trading data file
 def load_data(file_path):
     try:
         df = pd.read_excel(file_path, sheet_name=0, header=1)
@@ -12,7 +12,7 @@ def load_data(file_path):
         print(f"An error occurred while loading the data: {e}")
         return None
 
-# Convert columns to appropriate data types
+#Convert columns to appropriate data types
 def preprocess_data(df):
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
     df['Entry Time'] = pd.to_datetime(df['Entry Time'], format='%H:%M', errors='coerce').dt.time
@@ -22,7 +22,7 @@ def preprocess_data(df):
     df['1hr Bias'] = df['1hr Bias'].astype(str)
     return df
 
-# Analysis functions
+#Analysis functions
 def analyze_profitability(df):
     profitable_entries = df[df['Win or Loss'] == 'Win']
     average_entry_time = profitable_entries['Entry Time'].apply(lambda x: x.hour * 60 + x.minute).mean()
@@ -49,7 +49,7 @@ def analyze_bias_alignment(df):
     non_alignment_win_rate = df[~df['Bias Alignment'] & (df['Win or Loss'] == 'Win')].shape[0] / df[~df['Bias Alignment']].shape[0] * 100
     return alignment_win_rate, non_alignment_win_rate
 
-# Plotting functions
+#Plotting functions
 def plot_profitable_days(profitable_days):
     plt.figure(figsize=(10, 6))
     sns.barplot(x=profitable_days.index, y=profitable_days.values, palette='viridis')
@@ -85,7 +85,7 @@ def plot_win_rate(alignment_win_rate, non_alignment_win_rate):
     plt.grid(True)
     plt.show()
 
-# Main function to run the analysis
+#Main function to run the analysis
 def main():
     file_path = r'D:\Aayush School\Summer 2024\LIS 4930 Pyth\Trading Model Backtesting.xlsx'
     df = load_data(file_path)
@@ -119,6 +119,6 @@ def main():
         plot_average_drawdown(df)
         plot_win_rate(alignment_win_rate, non_alignment_win_rate)
 
-# Run the main function
+#Run the main function
 if __name__ == "__main__":
     main()
